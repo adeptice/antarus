@@ -1,0 +1,142 @@
+{
+  "model": {
+    "system": {
+      "radiobutton": [
+        {
+          "id": "s01e01",
+          "value": "Повышение давления"
+        },
+        {
+          "id": "s01e02",
+          "value": "Пожаротушение"
+        }
+      ]
+    },
+    "control": {
+      "checkbox": [
+        {
+          "id": "s02e01",
+          "value": "Antarus 2.0",
+          "condition": {"system":"Повышение давления"}
+        },
+        {
+          "id": "s02e02",
+          "value": "Multi-Drive",
+          "condition": {"system":"Повышение давления"}
+        },
+        {
+          "id": "s02e03",
+          "value": "Antarus 2.0",
+          "condition": {"system":"Пожаротушение"}
+        }
+      ]
+    },
+    "pumps": {
+      "checkbox": [
+        {
+          "id": "s03e01",
+          "value": "MLH"
+        },
+        {
+          "id": "s03e02",
+          "value": "XST",
+          "condition": [{"system":"Пожаротушение"},{"control":"Antarus 2.0"}]
+        },
+        {
+          "id": "s03e03",
+          "value": "MHI"
+        },
+        {
+          "id": "s03e04",
+          "value": "BL",
+          "condition": [{"system":"Пожаротушение"},{"control":"Antarus 2.0"}]
+        },
+        {
+          "id": "s03e05",
+          "value": "MHIL",
+          "condition": [{"system":"Пожаротушение"},{"control":"Antarus 2.0"}]
+        },
+        {
+          "id": "s03e06",
+          "value": "CM"
+        },
+        {
+          "id": "s03e07",
+          "value": "NB",
+          "condition": {"control":"Antarus 2.0"}
+        },
+
+        {
+          "id": "s03e08",
+          "value": "MLV"
+        },
+        {
+          "id": "s03e09",
+          "value": "MVI",
+          "condition": {"control":"Antarus 2.0"}
+        },
+        {
+          "id": "s03e10",
+          "value": "HELIX V"
+        },
+        {
+          "id": "s03e11",
+          "value": "MVIL",
+          "condition": [{"system":"Пожаротушение"},{"control":"Antarus 2.0"}]
+        },
+        {
+          "id": "s03e12",
+          "value": "CR"
+        },
+        {
+          "id": "s03e13",
+          "value": "MLVc",
+          "condition": {"system":"Повышение давления"}
+        },
+
+        {
+          "id": "s03e14",
+          "value": "SBP",
+          "condition": {"control":"Multi-Drive"}
+        }
+      ]
+    },
+    "total_flow": {
+      "input": {
+        "label": "Общий расход",
+        "required": true
+      }
+    },
+    "pressure": {
+      "input": {
+        "label": "Напор установки",
+        "required": true
+      }
+    },
+    "static": {
+      "input": {
+        "label": "Статический напор"
+      }
+    },
+    "guaranted": {
+      "input": {
+        "label": "Гарантированный напор"
+      }
+    },
+    "work_pump": {
+      "input": {
+        "label": "Рабочие насосы"
+      }
+    },
+    "reserve_pump": {
+      "input": {
+        "label": "Резервные насосы"
+      }
+    },
+    "valve_control": {
+      "switch": {
+        "label": "Управление двумя задвижками"
+      }
+    }
+  }
+}
