@@ -55,23 +55,25 @@ p, .switch, label, .form span
 h1, h2, h3, input { color:#333333 }
 
 /* Antarus blue */
-header, .submit,
+header, .submit.active,
 div.button.b_checkbox.selected::before,
 .form .switch span
 { background-color: #023E84 }
 
-div.stepNum { color: #023E84 }
 div.button.selected,
 div.form input:focus { border-color: #023E84 }
 
 /* Antarus red */
-div.navitem {border-color: #E6332A}
+nav#steps .navitem.active {border-color: #E6332A}
+div.form input.error {border-color: #fbe0df}
+div.form input.error:active,
+div.form input.error:focus {border-color: #E6332A}
 
 
 /* --- Header --- */
 
 header {
-  height: 180px;
+  height: 110px;
   width: auto;
   width: 100%;
   z-index: 10;
@@ -81,46 +83,56 @@ header {
 
   header #Logotype {
     position: absolute;
-    top:40px;
+    top:30px;
   }
 
-  /* Steps */
+/* --- Navbar --- */
 
-  nav#steps {
+div#navbar{
+  height: 120px;
+  width: 100%;
+  background-color: #FFF;
+  position: fixed;
+  bottom: 0;
+  z-index: 10;
+
+  box-shadow: 0 0 12px rgba(0,0,0,0.1);
+}
+
+/* Steps */
+
+nav#steps {
+  display: flex;
+  height: 120px;
+  align-items: center;
+  align-content: stretch;
+  position: relative;
+  margin: 0 -15px;
+}
+
+  nav#steps div.navitem {
+    color: #888;
+    flex: auto;
     display: flex;
-    position: relative;
-    top:120px;
+    opacity: 0.3;
+    padding: 45px 15px;
+    border-color: #FFF;
+    border-top-width: 6px;
+    border-top-style: solid;
+
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -ms-user-select: none;
+
+    transition: opacity 0.2s ease, border-color 0.5s ease;
   }
-
-    nav#steps div.navitem {
-      height: 60px;
-      display: inline-flex;
-      flex-grow: 1;
-      margin-right: 30px;
-      opacity: 0.5;
-      padding: 10px 0 5px 0;
-      cursor: pointer;
-
-      user-select: none;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -khtml-user-select: none;
-      -ms-user-select: none;
-    }
-
-      nav#steps div.navitem:last-child { margin:0 }
-
-    nav#steps div.active {
-      opacity: 1;
-      padding: 10px 0 0 0;
-      border-bottom-width: 5px;
-      border-bottom-style: solid;
-    }
 
     nav#steps div.navitem div.stepNum {
       width: 24px;
       height: 24px;
-      background-color: #FFF;
+      background-color: #888;
       border-radius: 12px;
       margin-right: 10px;
       box-sizing: border-box;
@@ -128,6 +140,7 @@ header {
     }
 
       nav#steps div.navitem div.stepNum span{
+        color:#FFF;
         display: block;
         line-height: 23px;
         text-align: center;
@@ -144,11 +157,11 @@ header {
           display: block;
           width: 24px;
           height: 24px;
-          background-image: url(../img/icon_CheckSign@blue.svg);
+          background-image: url(../img/icon_CheckSign.svg);
           background-position: 0 0;
         }
 
-    @media (min-width: 576px) and (max-width: 767.98px) {
+    @media (min-width: 768px) and (max-width: 992px) {
       nav#steps div.navitem { justify-content: center }
       nav#steps div.navitem div.stepNum { display: none }
     }
@@ -156,16 +169,29 @@ header {
     nav#steps div.navitem div.stepInfo {
       height: 24px;
       line-height: 24px;
-      color:#FFF;
+      color:#888;
       padding-top: 1px;
       box-sizing: border-box;
     }
 
-    @media (max-width: 575.98px) {
+    @media (max-width: 768px) {
       nav#steps div.navitem { justify-content: center }
       nav#steps div.navitem div.stepInfo { display: none }
     }
 
+  nav#steps div.navitem.checked { opacity: 1 }
+
+  @media (hover: hover) {
+    nav#steps div.navitem.checked { opacity: 0.3; cursor: pointer }
+    nav#steps div.navitem.checked:hover { opacity: 1 }
+  }
+
+    nav#steps div.navitem.checked div.stepInfo {color: #023E84}
+    nav#steps div.navitem.checked div.stepNum {background-color: #023E84}
+
+  nav#steps div.navitem.active { opacity: 1 }
+    nav#steps div.navitem.active div.stepInfo {color: #023E84}
+    nav#steps div.navitem.active div.stepNum {background-color: #023E84}
 
 /* --- Main --- */
 
@@ -175,7 +201,7 @@ main {
 
   main .slide{
     width: 100%;
-    padding: 60px 0 0 0;
+    padding: 60px 0 120px 0;
     position: absolute;
     top: 0;
     visibility: hidden;
@@ -308,9 +334,9 @@ main {
       background-position: 0 0;
     }
 
-  div.button.l_antarus::after,
-  div.button.l_wilo::after,
-  div.button.l_grundfos::after
+  div.button.Antarus::after,
+  div.button.Wilo::after,
+  div.button.Grundfos::after
   {
     content: '';
     width: 82px;
@@ -321,9 +347,9 @@ main {
     background-repeat: no-repeat;
   }
 
-    div.button.l_antarus::after {background-image: url(../img/Antarus@sm.svg)}
-    div.button.l_wilo::after {background-image: url(../img/Wilo@sm.svg)}
-    div.button.l_grundfos::after {background-image: url(../img/Grundfos@sm.svg)}
+    div.button.Antarus::after {background-image: url(../img/Antarus@sm.svg)}
+    div.button.Wilo::after {background-image: url(../img/Wilo@sm.svg)}
+    div.button.Grundfos::after {background-image: url(../img/Grundfos@sm.svg)}
 
   /* Submit */
 
@@ -332,11 +358,13 @@ main {
     font-size: 14px;
     display: block;
     text-align: center;
-    margin: 0 0 0 0;
+    margin: 30px 0 0 0;
     color: #FFF;
+    background-color: #888;
     line-height: 60px;
     width: auto;
-    cursor: pointer;
+    cursor: default;
+    opacity: 0.3;
 
     user-select: none;
     -webkit-user-select: none;
@@ -344,23 +372,9 @@ main {
     -khtml-user-select: none;
     -ms-user-select: none;
 
-    transform: translateY(0px);
-    box-shadow: 0px 4px 8px rgba(1, 40, 80, 0.2);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transform: translateY(2px);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
   }
-
-    @media (hover: hover) {
-      div.submit:hover {
-        transform: translateY(-2px);
-        box-shadow: 0px 6px 12px rgba(1, 40, 80, 0.15);
-      }
-    }
-
-    div.submit:active,
-    div.submit:focus {
-      transform: translateY(1px);
-      box-shadow: 0px 2px 5px rgba(0, 40, 80, 0.4);
-    }
 
     div.submit::after {
       font-weight: 400;
@@ -369,6 +383,27 @@ main {
       content: '\2192';
       float: right;
       margin: 0 15px;
+    }
+
+  div.submit.active {
+    opacity: 1;
+    cursor: pointer;
+
+    transform: translateY(0px);
+    box-shadow: 0px 4px 8px rgba(1, 40, 80, 0.2);
+  }
+
+    @media (hover: hover) {
+      div.submit.active:hover {
+        transform: translateY(-2px);
+        box-shadow: 0px 6px 12px rgba(1, 40, 80, 0.15);
+      }
+    }
+
+    div.submit.active:active,
+    div.submit.active:focus {
+      transform: translateY(1px);
+      box-shadow: 0px 2px 5px rgba(0, 40, 80, 0.4);
     }
 
   /* Switch */
@@ -407,7 +442,7 @@ main {
     div.switch span::after {
       content: '';
       position: absolute;
-      left: 19px;
+      left: calc(100% - 19px);
       width: 14px;
       height: 14px;
       border-radius: 7px;
@@ -472,6 +507,12 @@ main {
       justify-content: space-between;
       padding: 0 20px;
       margin-bottom: 20px;
+    }
+
+    @media (max-width: 575.98px) {
+      div.form { padding: 30px 20px 20px 20px }
+      div.form .formline { padding: 0 }
+      div.form div.switch { padding: 0 }
     }
 
       div.form label {

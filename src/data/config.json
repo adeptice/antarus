@@ -17,17 +17,17 @@
         {
           "id": "s02e01",
           "value": "Antarus 2.0",
-          "condition": {"system":"Повышение давления"}
+          "condition": [{"system":"Повышение давления"}]
         },
         {
           "id": "s02e02",
           "value": "Multi-Drive",
-          "condition": {"system":"Повышение давления"}
+          "condition": [{"system":"Повышение давления"}]
         },
         {
           "id": "s02e03",
           "value": "Antarus 2.0",
-          "condition": {"system":"Пожаротушение"}
+          "condition": [{"system":"Пожаротушение"}]
         }
       ]
     },
@@ -63,7 +63,7 @@
         {
           "id": "s03e07",
           "value": "NB",
-          "condition": {"control":"Antarus 2.0"}
+          "condition": [{"system":"Пожаротушение"},{"control":"Antarus 2.0"}]
         },
 
         {
@@ -73,7 +73,7 @@
         {
           "id": "s03e09",
           "value": "MVI",
-          "condition": {"control":"Antarus 2.0"}
+          "condition": [{"control":"Antarus 2.0"}]
         },
         {
           "id": "s03e10",
@@ -91,51 +91,59 @@
         {
           "id": "s03e13",
           "value": "MLVc",
-          "condition": {"system":"Повышение давления"}
+          "condition": [{"system":"Повышение давления"}]
         },
 
         {
           "id": "s03e14",
           "value": "SBP",
-          "condition": {"control":"Multi-Drive"}
+          "condition": [{"control":"Multi-Drive"}]
         }
       ]
     },
     "total_flow": {
       "input": {
+        "id": "s04e01",
         "label": "Общий расход",
         "required": true
       }
     },
     "pressure": {
       "input": {
+        "id": "s04e02",
         "label": "Напор установки",
         "required": true
       }
     },
     "static": {
       "input": {
+        "id": "s04e03",
         "label": "Статический напор"
       }
     },
     "guaranted": {
       "input": {
+        "id": "s04e04",
         "label": "Гарантированный напор"
       }
     },
     "work_pump": {
       "input": {
+        "id": "s04e05",
         "label": "Рабочие насосы"
       }
     },
     "reserve_pump": {
       "input": {
+        "id": "s04e06",
         "label": "Резервные насосы"
       }
     },
     "valve_control": {
       "switch": {
-        "label": "Управление двумя задвижками"
+        "id": "s04e07",
+        "label": "Управление двумя задвижками",
+        "condition": [{"system":"Пожаротушение"}]
       }
     }
   }
