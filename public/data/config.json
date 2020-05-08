@@ -146,5 +146,6 @@
         "condition": [{"system":"Пожаротушение"}]
       }
     }
-  }
+  },
+  "server": "http://localhost:8080/"
 }

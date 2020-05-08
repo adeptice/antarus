@@ -4,6 +4,29 @@ body{
   font: 400 14px 'Roboto', sans-serif;
 }
 
+div#screen {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: 1fr 120px;
+
+  grid-template-areas:
+  "viewport"
+  "navigation";
+}
+
+ div#viewport{
+   height: calc(100vh - 120px);
+   grid-area: viewport;
+   overflow: hidden;
+   overflow-y: scroll;
+ }
+
+ div#navbar {
+   grid-area: navigation;
+   z-index: 10;
+ }
 
 /* --- Typograhy --- */
 
@@ -11,7 +34,7 @@ p, header, .submit { letter-spacing: 0.01rem }
 
 p {
   line-height: 1.4em;
-  margin-bottom: 1.5em;
+  margin-bottom: 15px;
 }
 
   p.warning {
@@ -27,6 +50,10 @@ h1 {
   line-height: 1.4em;
   letter-spacing: -0.02em;
   cursor: default;
+}
+
+@media (max-width: 576px) {
+  h1 { font-size: 2rem; margin-bottom: 30px }
 }
 
 h2 {
@@ -52,10 +79,10 @@ p, .switch, label, .form span
 { color: #888888 }
 
 /* Dark grey */
-h1, h2, h3, input { color:#333333 }
+h1, h2, h3, input, p.value { color:#333333 }
 
 /* Antarus blue */
-header, .submit.active,
+header, .bluebutton.active,
 div.button.b_checkbox.selected::before,
 .form .switch span
 { background-color: #023E84 }
@@ -89,13 +116,7 @@ header {
 /* --- Navbar --- */
 
 div#navbar{
-  height: 120px;
-  width: 100%;
   background-color: #FFF;
-  position: fixed;
-  bottom: 0;
-  z-index: 10;
-
   box-shadow: 0 0 12px rgba(0,0,0,0.1);
 }
 
@@ -107,15 +128,16 @@ nav#steps {
   align-items: center;
   align-content: stretch;
   position: relative;
-  margin: 0 -15px;
+  margin: 0;
 }
 
   nav#steps div.navitem {
     color: #888;
     flex: auto;
     display: flex;
+    justify-content: center;
     opacity: 0.3;
-    padding: 45px 15px;
+    padding: 45px 0px;
     border-color: #FFF;
     border-top-width: 6px;
     border-top-style: solid;
@@ -161,7 +183,7 @@ nav#steps {
           background-position: 0 0;
         }
 
-    @media (min-width: 768px) and (max-width: 992px) {
+    @media (min-width: 767.5px) and (max-width: 992px) {
       nav#steps div.navitem { justify-content: center }
       nav#steps div.navitem div.stepNum { display: none }
     }
@@ -174,15 +196,15 @@ nav#steps {
       box-sizing: border-box;
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 767.5px) {
       nav#steps div.navitem { justify-content: center }
       nav#steps div.navitem div.stepInfo { display: none }
     }
 
-  nav#steps div.navitem.checked { opacity: 1 }
+  nav#steps div.navitem.checked { opacity: 1; cursor: pointer }
 
   @media (hover: hover) {
-    nav#steps div.navitem.checked { opacity: 0.3; cursor: pointer }
+    nav#steps div.navitem.checked { opacity: 0.3 }
     nav#steps div.navitem.checked:hover { opacity: 1 }
   }
 
@@ -196,22 +218,56 @@ nav#steps {
 /* --- Main --- */
 
 main {
+  height: calc(100% - 110px);
   position: relative;
 }
 
-  main .slide{
+  #splashscreen{
     width: 100%;
-    padding: 60px 0 120px 0;
+    height: 100%;
     position: absolute;
-    top: 0;
-    visibility: hidden;
-    opacity: 0;
+    top:0;
+    z-index: 5;
+    display: none;
+    background: #EBEBEB url(../img/loader.gif) no-repeat 50% 50%;
   }
 
-  main .slide.active{
-    visibility: visible;
-    opacity: 1;
+    #splashscreen.active{ display: block; }
+
+    #splashscreen div{
+      position: absolute;
+      top: calc(50% + 40px);
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+    }
+
+  main .slide{
+    display: block;
+    width: 100%;
+    padding: 60px 0 0 0;
+    position: absolute;
+    top: 0;
+
+    opacity: 0;
+    visibility: hidden;
+    display: none;
+    transform: translateX(40px);
+    transition: opacity 0.5s ease, visibility 0.5s ease, transform 0.5s ease;
   }
+
+    main .slide.active{
+      opacity: 1;
+      visibility: visible;
+      display: block;
+      transform: translateX(0px);
+    }
+
+    main .slide.checked{
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(-40px);
+    }
 
   .column { margin-bottom: 30px }
   .subText { padding: 0 15px }
@@ -353,7 +409,7 @@ main {
 
   /* Submit */
 
-  div.submit {
+  .bluebutton {
     font-weight: 700;
     font-size: 14px;
     display: block;
@@ -376,7 +432,12 @@ main {
     transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
   }
 
-    div.submit::after {
+    a.bluebutton {
+      text-decoration: none;
+      color: #FFF !important
+    }
+
+    .submit::after {
       font-weight: 400;
       font-size: 30px;
       line-height: 55px;
@@ -385,8 +446,20 @@ main {
       margin: 0 15px;
     }
 
-  div.submit.active {
+    .download { display: none }
+
+      .download::after {
+        font-weight: 400;
+        font-size: 30px;
+        line-height: 55px;
+        content: '\2913';
+        float: right;
+        margin: 0 15px;
+      }
+
+  .bluebutton.active {
     opacity: 1;
+    display: block;
     cursor: pointer;
 
     transform: translateY(0px);
@@ -394,14 +467,14 @@ main {
   }
 
     @media (hover: hover) {
-      div.submit.active:hover {
+      .bluebutton.active:hover {
         transform: translateY(-2px);
         box-shadow: 0px 6px 12px rgba(1, 40, 80, 0.15);
       }
     }
 
-    div.submit.active:active,
-    div.submit.active:focus {
+    .bluebutton.active:active,
+    .bluebutton.active:focus {
       transform: translateY(1px);
       box-shadow: 0px 2px 5px rgba(0, 40, 80, 0.4);
     }
@@ -613,3 +686,175 @@ main {
 
           div.form .numauto span.numdec {background-image: url(../img/btn_Minus.svg);}
           div.form .numauto span.numinc {background-image: url(../img/btn_Plus.svg);}
+
+/* --- Result --- */
+
+ul#propList {
+  margin: 0 0 30px 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+}
+
+  ul#propList li {
+    display: flex;
+    justify-content: flex-start;
+  }
+    ul#propList li:last-child { margin:0 }
+
+    ul#propList div.propNum {
+      width: 24px;
+      height: 24px;
+      background-color: #888;
+      border-radius: 12px;
+      box-sizing: border-box;
+      overflow: hidden;
+      cursor: pointer;
+
+      transition: background-color 0.2s ease;
+    }
+
+      ul#propList .active div.propNum {
+        background-color: #023E84;
+        cursor: default;
+      }
+
+      @media (hover: hover) {
+        ul#propList div.propNum:hover {background-color: #023E84;}
+      }
+
+      ul#propList div.propNum span {
+        color: #EBEBEB;
+        display: block;
+        line-height: 23px;
+        text-align: center;
+        font-weight: 700;
+        padding-top: 1px;
+        margin-top: 0px;
+        transition: margin-top 0.2s ease;
+      }
+
+        ul#propList div.propNum span::after {
+          content: '';
+          display: block;
+          width: 24px;
+          height: 24px;
+          background-image: url(../img/icon_CheckSign.svg);
+          background-position: 0 0;
+        }
+
+        ul#propList .checked div.propNum span {margin-top: -24px}
+
+        @media (hover: hover) {
+          ul#propList .checked div.propNum span {margin-top: -24px}
+          ul#propList .checked div.propNum:hover span {margin-top: 0px}
+        }
+
+    ul#propList div.propName {
+      font-weight: 700;
+      height: 24px;
+      line-height: 24px;
+      color: #333;
+      padding-top: 1px;
+      margin: 0 10px;
+      width: auto;
+      max-width: 0;
+      overflow: hidden;
+      cursor: default;
+      opacity: 0;
+
+      transition: margin-right 0.5s ease,
+                  max-width 1s cubic-bezier(0,1,.3,1),
+                  opacity 0.5s ease;
+    }
+
+      ul#propList .active div.propName {
+        opacity: 1;
+        max-width: 500px;
+        margin-right: 30px;
+        transition: margin-right 0.5s ease,
+                    max-width 1s ease,
+                    opacity 0.75s ease;
+      }
+
+/* Proposals */
+div#proposal{
+  display: block;
+  width: 100%;
+  position: relative;
+}
+
+  div.station{
+    position: absolute;
+    top:0;
+
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(40px);
+
+    transition: opacity 0.5s ease, visibility 0.5s ease, transform 0.5s ease;
+  }
+
+    div.station.active{
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0px);
+    }
+
+    div.station.checked{
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(-40px);
+    }
+
+    /* Data layout */
+
+    div.databox{
+      display: grid;
+      align-items: start;
+      grid-template-columns: 66.6667% 33.3333%;
+      grid-template-areas: "graph data" "info data";
+      grid-gap: 30px;
+    }
+
+    @media (max-width: 992px) {
+      div.databox{
+        grid-template-columns: 100%;
+        grid-template-areas: "graph" "data" "info";
+      }
+      div.data { border-bottom: 1px solid #ccc }
+    }
+
+      div.graph { grid-area: graph }
+      div.data { grid-area: data }
+      div.info { grid-area: info; padding: 15px}
+
+      /* Graph */
+      div.graph {
+        background-color: #fff;
+        padding: 0;
+        box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.1);
+      }
+        div.graph img {width:100%}
+
+      /* Data */
+      div.datablock {margin-bottom: 15px}
+
+        div.datablock h2 { margin-bottom: 15px }
+
+        div.datablock ul{
+          margin: 0 0 0 30px;
+          padding: 0;
+          list-style: none;
+        }
+
+          div.datablock ul li{
+            margin: 0;
+            padding: 0;
+            clear: both;
+          }
+
+        div.datablock ul p.label {width: 65%; float: left; padding-right: 10px;}
+        div.datablock ul p.value {
+          font-weight: 700;
+        }

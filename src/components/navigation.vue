@@ -14,7 +14,8 @@
 
         </div>
         <div class="col-4">
-          <div class="submit" :class="{'active': next.isActive}" @click="goNext">{{next.name}}</div>
+          <div v-if="next.name" class="bluebutton submit" :class="{'active': next.isActive}" @click="goNext">{{next.name}}</div>
+          <a :href="download" class="bluebutton download" :class="{'active': isDownload}" target="_blank">Сохранить предложение</a>
         </div>
       </div>
     </div>
@@ -27,16 +28,24 @@
     props: {
       slides: Array,
       current: Number,
-      next: Object
+      next: Object,
+      download: String
     },
     computed: {
       slideList(){
-        var slideList = [];
-        this.$props.slides.forEach((slide, i) => {
-          var status = (i < this.$props.current) ? "checked" : (i === this.$props.current) ? "active" : "";
-          slideList.push({"num": i, "name": slide, "status": status})
-        });
-        return slideList
+        if (this.$props.slides){
+          var slideList = [];
+          this.$props.slides.forEach((slide, i) => {
+            var status = (i < this.$props.current) ? "checked" : (i === this.$props.current) ? "active" : "";
+            slideList.push({"num": i, "name": slide, "status": status})
+          });
+          return slideList
+        }
+        return false
+      },
+      isDownload(){
+        if (this.download.length > 0) return true
+        return false
       }
     },
     methods: {
