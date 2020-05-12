@@ -197,7 +197,10 @@ nav#steps {
     }
 
     @media (max-width: 767.5px) {
-      nav#steps div.navitem { justify-content: center }
+      nav#steps { height: 50px }
+      nav#steps div.navitem { justify-content: center; padding: 10px 0 }
+      .bluebutton { margin: 0 !important }
+      div.stepNum { margin: 0 !important }
       nav#steps div.navitem div.stepInfo { display: none }
     }
 
@@ -834,8 +837,21 @@ div#proposal{
         background-color: #fff;
         padding: 0;
         box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.1);
+        position: relative;
       }
         div.graph img {width:100%}
+        div.graph p.axisx {
+          margin: 0;
+          position: absolute;
+          right: 40px;
+          bottom: 10px;
+        }
+        div.graph p.axisy {
+          margin:0;
+          position: absolute;
+          left: 10px;
+          top: 10px
+        }
 
       /* Data */
       div.datablock {margin-bottom: 15px}

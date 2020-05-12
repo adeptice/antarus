@@ -3,7 +3,7 @@
   <div id="navbar">
     <div class="container">
       <div class="row">
-        <div class="col-8">
+        <div class="col-md-7 col-lg-8 col-12">
 
           <nav id="steps">
             <div v-for="slide in slideList" :key="slide.name" class="navitem" :class="slide.status" @click="goSlide(slide.num)">
@@ -13,7 +13,7 @@
           </nav>
 
         </div>
-        <div class="col-4">
+        <div class="col-md-5 col-lg-4 col-12">
           <div v-if="next.name" class="bluebutton submit" :class="{'active': next.isActive}" @click="goNext">{{next.name}}</div>
           <a :href="download" class="bluebutton download" :class="{'active': isDownload}" target="_blank">Сохранить предложение</a>
         </div>

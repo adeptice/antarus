@@ -146,7 +146,8 @@
   fill: none; }
 
 .ct-point {
-  stroke-width: 8px;
+  stroke-width: 6px;
+  border: 1px solid #FFF;
   stroke-linecap: round; }
 
 .ct-line {
