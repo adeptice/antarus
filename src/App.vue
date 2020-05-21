@@ -43,6 +43,9 @@
 </template>
 
 <script>
+  const host = 'http://search.antarus.su/';
+  // const host = 'http://localhost:8080/';
+
   import axios from 'axios';
   // Компоненты
   import navigation from './components/navigation.vue';
@@ -70,11 +73,11 @@
     created() {
       // при создании загружаем первоначальные данные:
       // модель формы
-      this.loadData('http://localhost:8080/data/config.json').then( response => {
+      this.loadData(host + 'data/config.json').then( response => {
         if (response) { this.model = response.model; this.server = response.server }
       });
       // разметку формы
-      this.loadData('http://localhost:8080/data/layout.json').then( response => {
+      this.loadData(host + 'data/layout.json').then( response => {
         if (response) this.view = response.view;
       });
     },
@@ -306,7 +309,7 @@
           var dataToSend = JSON.stringify(this.valueResult);
           if (this.sentData != dataToSend) {
             this.server_response = {};
-            this.loadData('http://localhost:8080/data/results.json')
+            this.loadData(host + 'data/results.json')
             .then( response => { if (response) { this.server_response = response; this.sentData = dataToSend } });
           }
         }

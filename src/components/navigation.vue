@@ -15,7 +15,7 @@
         </div>
         <div class="col-md-5 col-lg-4 col-12">
           <div v-if="next.name" class="bluebutton submit" :class="{'active': next.isActive}" @click="goNext">{{next.name}}</div>
-          <a :href="download" class="bluebutton download" :class="{'active': isDownload}" target="_blank">Сохранить предложение</a>
+          <a v-if="isDownload" :href="download" class="bluebutton download active" target="_blank">Сохранить предложение</a>
         </div>
       </div>
     </div>
@@ -44,7 +44,7 @@
         return false
       },
       isDownload(){
-        if (this.download.length > 0) return true
+        if ((!this.$props.next.isActive) && (this.download.length > 0)) return true
         return false
       }
     },

@@ -10,7 +10,6 @@
   "dependencies": {
     "axios": "^0.19.2",
     "chartist": "^0.11.4",
-    "chartist-plugin-axistitle": "0.0.7",
     "core-js": "^3.6.4",
     "v-chartist": "^0.1.6",
     "vue": "^2.6.11"
