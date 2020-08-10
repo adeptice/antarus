@@ -43,10 +43,6 @@
 </template>
 
 <script>
-  const host = 'http://search.antarus.su/';
-  // const host = 'http://localhost:8080/';
-
-  import axios from 'axios';
   // Компоненты
   import navigation from './components/navigation.vue';
   import multibutton from './components/multibutton.vue';
@@ -73,11 +69,11 @@
     created() {
       // при создании загружаем первоначальные данные:
       // модель формы
-      this.loadData(host + 'data/config.json').then( response => {
+      this.loadData('/data/config.json').then( response => {
         if (response) { this.model = response.model; this.server = response.server }
       });
       // разметку формы
-      this.loadData(host + 'data/layout.json').then( response => {
+      this.loadData('/data/layout.json').then( response => {
         if (response) this.view = response.view;
       });
     },
@@ -187,7 +183,9 @@
         const token = Math.random().toString(36).substr(2);
         this.$set(this.server_pending, this.server_pending.length, token);
         try {
-          let response = await axios.get(path);
+          let response = await this.$http.get(path);
+          console.log('loadData: '+ path);
+          console.log(response);
           if (response.status === 200) {
             this.$delete(this.server_pending, this.server_pending.indexOf(token));
             return Object.assign(response.data, {"token": token})
@@ -200,9 +198,12 @@
       // контроллер отправки данных
       async sendData(path, data){
         const token = Math.random().toString(36).substr(2);
+        const http_config = { auth: { username: "Antarus", password: "Antica" } }
         this.$set(this.server_pending, this.server_pending.length, token);
         try {
-          let response = await axios.post(path, data);
+          let response = await this.$http.post(path, data, http_config);
+          console.log('sendData: '+ path);
+          console.log(response);
           if (response.status === 200) {
             this.$delete(this.server_pending, this.server_pending.indexOf(token));
             return Object.assign(response.data, {"token": token})
@@ -309,7 +310,7 @@
           var dataToSend = JSON.stringify(this.valueResult);
           if (this.sentData != dataToSend) {
             this.server_response = {};
-            this.loadData(host + 'data/results.json')
+            this.sendData('http://10.1.29.40/krow46/hs/Antarus/', dataToSend)
             .then( response => { if (response) { this.server_response = response; this.sentData = dataToSend } });
           }
         }
