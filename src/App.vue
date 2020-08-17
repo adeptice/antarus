@@ -202,7 +202,12 @@
       // контроллер отправки данных
       async sendData(path, data){
         const token = Math.random().toString(36).substr(2);
-        const http_config = { auth: { username: "Antarus", password: "Antica" } }
+        const http_config = {
+          headers: {
+            'Authorization': 'Basic ' + btoa('Antarus:Antica'),
+            'ibsession': 'start'
+          }
+        };
         this.$set(this.server_pending, this.server_pending.length, token);
         try {
           let response = await this.$http.post(path, data, http_config);
