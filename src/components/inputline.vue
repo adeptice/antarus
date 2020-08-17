@@ -2,10 +2,10 @@
 
   <div class="inputline">
 
-    <div v-if=" model.role === 'input' " class="formline">
+    <div v-if=" model.role === 'input' " class="formline" :class="{'disabled': isDisabled}">
       <label :for="model.change">{{model.label}}</label>
       <div class="numtext">
-        <input type="number" :id="model.change" v-model="result" :class="{'error': isError}">
+        <input type="number" :id="model.change" v-model="result" :class="{'error': isError}" :disabled="isDisabled">
         <div v-if="view.units" class="units">
           <ul class="measure" :style="marginUnit">
             <li v-for="(unit, unitnum) in view.units" :key="unit.name" @click="selectUnits(unitnum+1)"><span>{{unit.name}}</span></li>
@@ -24,7 +24,8 @@
   export default {
     props: {
       model: Object,
-      view: Object
+      view: Object,
+      results: Object
     },
     data(){
       return {
@@ -36,6 +37,9 @@
       if (this.$props.model.role === 'switch') this.result = true;
     },
     computed: {
+      isDisabled(){
+        return (this.$props.results[this.$props.model.change] === 'auto')
+      },
       switchClass(){
         if (this.result === false) return "off";
         return false

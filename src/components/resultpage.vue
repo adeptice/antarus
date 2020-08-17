@@ -16,7 +16,8 @@
           <div v-for="(proposal, p_index) in proposals" :key="proposal.name" class="station" :class="checked[p_index]">
             <div class="databox">
 
-              <chart :dots="proposal.graph"></chart>
+              <imageblob :image="proposal.graph.image"/>
+              <!-- <chart :dots="proposal.graph"></chart> -->
 
               <div class="data row">
                 <div v-for="datablock in proposal.data" :key="datablock.header" class="datablock col-lg-12 col-md-6 col-12">
@@ -42,14 +43,16 @@
 </template>
 
 <script>
-  import chart from './chart.vue';
+  // import chart from './chart.vue';
+  import imageblob from './imageblob.vue'
 
 export default {
   props: {
     view: Object,
     layout: Object
   },
-  components: { chart },
+  // components: { chart },
+  components: { imageblob },
   data(){
     return{
       current_proposal: null,

@@ -6,8 +6,7 @@ Vue.config.productionTip = false
 
 // axios
 Vue.prototype.$http = axios.create({
-  // baseURL: process.env.BASE_URL,
-  baseURL: 'http://localhost:8080',
+  baseURL: process.env.BASE_URL,
 });
 
 new Vue({

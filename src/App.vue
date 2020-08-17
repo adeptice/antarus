@@ -20,14 +20,16 @@
             <div class="row">
               <div v-for="(column, col_index) in slide.columns" :key="col_index" :class="column.class">
 
-                <template v-for="element in column.elements">
+                <template v-for="(element, el_index) in column.elements">
+                  <colswitch v-if="element.colswitch" :view="element.colswitch" :elems="column.elements" :idList="idList" :result="result" :key="el_index" @clicked="saveResult"/>
                   <multibutton v-if="element.button" :model="idList[element.button.id]" :view="element.button" :result="result[idList[element.button.id].change]" :key="element.button.id" @clicked="saveResult"></multibutton>
                   <div v-if="element.div" :key="element.div.class" :class="element.div.class" v-html="element.div.content"></div>
                 </template>
 
                 <div v-for="form in column.forms" :key="form.header" class="form">
                   <h2>{{form.header}}</h2>
-                  <inputline v-for="field in form.fields" :key="field.id" :model="idList[field.id]" :view="field" @filled="saveResult"></inputline>
+                  <paneswitch v-if="form.paneswitch" :params="form.paneswitch" :fields="form.fields" :idList="idList" :result="result" @filled="saveResult"></paneswitch>
+                  <inputline v-for="field in form.fields" :key="field.id" :model="idList[field.id]" :view="field" :results="result" @filled="saveResult"></inputline>
                 </div>
 
               </div>
@@ -47,11 +49,13 @@
   import navigation from './components/navigation.vue';
   import multibutton from './components/multibutton.vue';
   import inputline from './components/inputline.vue';
+  import colswitch from './components/switch.vue';
+  import paneswitch from './components/paneswitch.vue';
   import resultpage from './components/resultpage.vue';
 
   export default {
     name: 'app',
-    components: { multibutton, inputline, navigation, resultpage },
+    components: { multibutton, inputline, navigation, resultpage, colswitch, paneswitch },
     data(){
       return {
         model: {},
@@ -185,8 +189,8 @@
         try {
           let response = await this.$http.get(path);
           console.log('loadData: '+ path);
-          console.log(response);
-          if (response.status === 200) {
+          // console.log(response);
+          if (response.data) {
             this.$delete(this.server_pending, this.server_pending.indexOf(token));
             return Object.assign(response.data, {"token": token})
           }
@@ -204,7 +208,7 @@
           let response = await this.$http.post(path, data, http_config);
           console.log('sendData: '+ path);
           console.log(response);
-          if (response.status === 200) {
+          if (response.data) {
             this.$delete(this.server_pending, this.server_pending.indexOf(token));
             return Object.assign(response.data, {"token": token})
           }
@@ -308,9 +312,12 @@
       gotoSlide(num) {
         if (num === this.total_slides) {
           var dataToSend = JSON.stringify(this.valueResult);
+          console.log('Sending data');
+          console.log(dataToSend);
           if (this.sentData != dataToSend) {
             this.server_response = {};
-            this.sendData('http://10.1.29.40/krow46/hs/Antarus/', dataToSend)
+            // this.sendData('http://10.1.29.40/krow46/hs/Antarus/', dataToSend)
+            this.loadData('/data/results.json')
             .then( response => { if (response) { this.server_response = response; this.sentData = dataToSend } });
           }
         }

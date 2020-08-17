@@ -583,7 +583,13 @@ main {
       justify-content: space-between;
       padding: 0 20px;
       margin-bottom: 20px;
+      overflow: hidden;
+      height: auto;
+      opacity: 1;
+      transition: height 0.5s ease, margin 0.2s ease, opacity 0.5s ease;
     }
+
+      div.form .formline.disabled {height: 0px; margin: 0px; opacity: 0}
 
     @media (max-width: 575.98px) {
       div.form { padding: 30px 20px 20px 20px }
@@ -835,11 +841,21 @@ div#proposal{
       /* Graph */
       div.graph {
         background-color: #fff;
-        padding: 0;
+        /* padding: 0; */
+        padding: 10px;
+        height: 100%;
+        display: block;
         box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.1);
         position: relative;
       }
-        div.graph img {width:100%}
+      
+        div.graph img {
+          width:100%;
+          position: relative;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+
         div.graph p.axisx {
           margin: 0;
           position: absolute;

@@ -11,6 +11,10 @@
       view: Object,
       result: [String, Array]
     },
+    created() {
+      if (this.isCheckbox && !this.isActive)
+      this.$emit ("clicked", this.$props.model.change, this.$props.view.id, this.$props.model.role);
+    },
     computed: {
       isCheckbox() {
         return (this.$props.model.role === "checkbox")
