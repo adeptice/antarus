@@ -39,7 +39,7 @@
         },
         {
           "id": "s03e02",
-          "value": "XST",
+          "value": "MST",
           "condition": [{"system":"Пожаротушение"},{"control":"Antarus 2.0"}]
         },
         {
@@ -130,13 +130,15 @@
     "work_pump": {
       "input": {
         "id": "s04e05",
-        "label": "Рабочие насосы"
+        "label": "Рабочие насосы",
+        "required": true
       }
     },
     "reserve_pump": {
       "input": {
         "id": "s04e06",
-        "label": "Резервные насосы"
+        "label": "Резервные насосы",
+        "required": true
       }
     },
     "valve_control": {

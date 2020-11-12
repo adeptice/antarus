@@ -15,7 +15,7 @@
         </div>
         <div class="col-md-5 col-lg-4 col-12">
           <div v-if="next.name" class="bluebutton submit" :class="{'active': next.isActive}" @click="goNext">{{next.name}}</div>
-          <a v-if="isDownload" :href="download" class="bluebutton download active" target="_blank">Сохранить предложение</a>
+          <a v-if="isDownload" :href="proposal" target="_blank" class="bluebutton download active">Скачать лист данных</a>
         </div>
       </div>
     </div>
@@ -29,7 +29,7 @@
       slides: Array,
       current: Number,
       next: Object,
-      download: String
+      proposal: String
     },
     computed: {
       slideList(){
@@ -44,7 +44,7 @@
         return false
       },
       isDownload(){
-        if ((!this.$props.next.isActive) && (this.download.length > 0)) return true
+        if ((!this.$props.next.isActive) && (this.proposal.length > 0)) return true
         return false
       }
     },
@@ -54,6 +54,9 @@
       },
       goNext(){
         if (this.$props.next.isActive) this.$emit("slide", this.$props.current+1);
+      },
+      download(){
+        this.$emit("download", this.proposal)
       }
     }
   }

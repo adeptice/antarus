@@ -13,8 +13,16 @@
   <div id="screen">
     <div id="viewport">
       <header>
-        <div class="container">
-          <img src="img\Antarus.svg" alt="Antarus" id="Logotype">
+        <div class="container flexbox">
+          <div class="row">
+            <div class="logoblox col-8">
+              <a href="http://search.antarus.su/"><img src="./img/Antarus.svg" alt="Antarus" id="Logotype"></a>
+              <h2>Программа подбора насосных станций</h2>
+            </div>
+            <div class="startbutton col-4">
+              <div class="button startnew">Начать новый подбор</div>
+            </div>
+          </div>
         </div>
       </header>
       <main>
@@ -120,7 +128,7 @@
         </div>
         <!-- /Slide 3 -->
         <!-- Slide 4 -->
-        <div class="slide active">
+        <div class="slide">
           <div class="container">
             <h1>Входные данные</h1>
             <div class="row">
@@ -218,29 +226,30 @@
         </div>
         <!-- /Slide 4 -->
         <!-- Slide 5 -->
-        <div class="slide">
+        <div class="slide active">
           <div class="container">
-            <h1>Выбор насосной установки</h1>
             <ul id="propList">
               <li class="active" onclick="this.classList.toggle('active');">
                 <div class="propNum"><span>1</span></div>
-                <div class="propName">ANTARUS MULTI DRIVE 2 MLH4-30</div>
               </li>
               <li onclick="this.classList.toggle('active');">
                 <div class="propNum"><span>2</span></div>
-                <div class="propName">ANTARUS 2.0 MLH4-30</div>
               </li>
               <li class="checked" onclick="this.classList.toggle('active');">
                 <div class="propNum"><span>3</span></div>
-                <div class="propName">ANTARUS MVI2-25</div>
               </li>
               <li onclick="this.classList.toggle('active');">
                 <div class="propNum"><span>4</span></div>
-                <div class="propName">ANTARUS MLH4-30</div>
               </li>
             </ul>
+            <div class="arrow aleft">&#8592;</div>
+            <div class="arrow aright active">&#8594;</div>
             <div id="proposal">
               <div class="station active">
+                <div class="station-name">
+                  <h2>Насосная станция повышения давления</h2>
+                  <h1>ANTARUS 2 MLH2-20/GPRS</h1>
+                </div>
                 <div class="databox">
                   <div class="graph">
                     <img src="img\top.png" alt="">
@@ -319,15 +328,11 @@
                 <div class="stepNum"><span>4</span></div>
                 <div class="stepInfo">Параметры</div>
               </div>
-              <div class="navitem active">
-                <div class="stepNum"><span>5</span></div>
-                <div class="stepInfo">Результаты</div>
-              </div>
             </nav>
 
           </div>
           <div class="col-4">
-            <div class="submit">Приборы управления</div>
+            <div class="bluebutton download active">Скачать предложение в PDF</div>
           </div>
         </div>
       </div>

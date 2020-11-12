@@ -3,8 +3,16 @@
     <div id="viewport">
 
       <header>
-        <div class="container">
-          <img src="/img/Antarus.svg" alt="Antarus" id="Logotype">
+        <div class="container flexbox">
+          <div class="row">
+            <div class="logoblox col-md-8 col-12">
+              <a href="http://search.antarus.su/"><img src="/img/Antarus.svg" alt="Antarus" id="Logotype"></a>
+              <h2>Подбор насосных установок</h2>
+            </div>
+            <div class="startbutton col-4" v-show="isResult">
+              <div class="button startnew" @click="restartApp">Новый подбор</div>
+            </div>
+          </div>
         </div>
       </header>
 
@@ -40,7 +48,7 @@
       </main>
 
     </div>
-    <navigation :slides="menuList" :current="current_slide" :download="download_link" :next="nextButton" @slide="gotoSlide"></navigation>
+    <navigation :slides="menuList" :current="current_slide" :proposal="proposal" :next="nextButton" @slide="gotoSlide" @download="download"></navigation>
   </div>
 </template>
 
@@ -66,7 +74,7 @@
         result: {},
         current_slide: 0,
         splash_messages: [],
-        download_link: "",
+        proposal: "",
         sentData: ""
       }
     },
@@ -82,6 +90,9 @@
       });
     },
     computed: {
+      isResult(){
+        return (this.current_slide === this.total_slides)
+      },
       isData(){
         if (this.isEmptyObject(this.model)) return false
         if (this.isEmptyObject(this.view)) return false
@@ -188,7 +199,7 @@
         this.$set(this.server_pending, this.server_pending.length, token);
         try {
           let response = await this.$http.get(path);
-          console.log('loadData: '+ path);
+          // console.log('loadData: '+ path);
           // console.log(response);
           if (response.data) {
             this.$delete(this.server_pending, this.server_pending.indexOf(token));
@@ -204,15 +215,15 @@
         const token = Math.random().toString(36).substr(2);
         const http_config = {
           headers: {
-            'Authorization': 'Basic ' + btoa('Antarus:Antica'),
+            'Authorization': 'Basic ' + btoa('official:cheburashka'),
             'ibsession': 'start'
           }
         };
         this.$set(this.server_pending, this.server_pending.length, token);
         try {
           let response = await this.$http.post(path, data, http_config);
-          console.log('sendData: '+ path);
-          console.log(response);
+          // console.log('sendData: '+ path);
+          // console.log(response.data);
           if (response.data) {
             this.$delete(this.server_pending, this.server_pending.indexOf(token));
             return Object.assign(response.data, {"token": token})
@@ -311,22 +322,46 @@
       },
       // при выборе предложения устанавливает ссылку для скачивания
       setProposal(path){
-        if (path.length > 0) this.download_link = path;
+        this.proposal = path;
       },
       // контроллер смены слайдов
       gotoSlide(num) {
         if (num === this.total_slides) {
-          var dataToSend = JSON.stringify(this.valueResult);
-          console.log('Sending data');
-          console.log(dataToSend);
+          this.proposal = "";
+          var dataToSend = JSON.stringify({destination: "pumps", ...this.valueResult});
+          // console.log('Sending data');
+          // console.log(dataToSend);
           if (this.sentData != dataToSend) {
             this.server_response = {};
-            // this.sendData('http://10.1.29.40/krow46/hs/Antarus/', dataToSend)
-            this.loadData('/data/results.json')
+            this.sendData('http://93.189.150.84/api/hs/Antarus', dataToSend)
+            // var loadRes = '/data/no_results.json';
+            // var rand = Math.random() - 0.5;
+            // if (rand > -1) loadRes = '/data/results.json';
+            // this.loadData(loadRes)
             .then( response => { if (response) { this.server_response = response; this.sentData = dataToSend } });
           }
         }
         this.current_slide = num;
+      },
+      download(){
+        if (this.proposal.length > 0) {
+          var dataToSend = JSON.stringify({destination: "pdf", art_no: this.proposal, total_flow: this.valueResult.total_flow, pressure: this.valueResult.pressure });
+          // console.log('Sending data');
+          // console.log(dataToSend);
+          this.sendData('http://93.189.150.84/api/hs/Antarus', dataToSend)
+          // this.loadData('/data/pdf.json')
+          .then (response => {
+             if (response.pdf) {
+               let link = document.createElement('a');
+               link.href = response.pdf;
+               link.target = "_blank";
+               link.click();
+             }
+           })
+        }
+      },
+      restartApp(){
+        location.reload();
       }
     }
   }

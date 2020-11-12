@@ -1,7 +1,5 @@
 <template lang="html">
-  <div class="graph">
-    <img :src="image" />
-  </div>
+    <img :src="'data:image/png;base64,' + image" />
 </template>
 
 <script>

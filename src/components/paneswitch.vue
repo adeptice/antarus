@@ -16,6 +16,9 @@ export default {
       fieldsHistory: []
     }
   },
+  created(){
+    this.setValue();
+  },
   computed:{
     myFields(){
       var fields = []

@@ -2,23 +2,31 @@
 
   <div class="slide">
     <div class="container">
-      <h1 v-if="layout">{{layout.header}}</h1>
-      <template>
 
+      <template v-if="isResults">
         <ul id="propList">
-          <li v-for="(proposal_name, p_index) in propNameList" :key="p_index" :class="checked[p_index]">
-            <div class="propNum" @click="gotoProposal(p_index)"><span>{{p_index + 1}}</span></div>
-            <div class="propName">{{proposal_name}}</div>
+          <li v-for="(proposal_name, p_index) in propNameList" :key="p_index" :class="checked[p_index]" @click="gotoProposal(p_index)">
+            <div class="propNum"><span>{{p_index + 1}}</span></div>
+            <div class="propName"><span>{{proposal_name}}</span></div>
           </li>
         </ul>
 
+        <template v-if="showArrows">
+          <div class="arrow aleft" :class="{'active':leftAllow}" @click="swipeProposal(0)">&#8592;</div>
+          <div class="arrow aright" :class="{'active':rightAllow}" @click="swipeProposal(1)">&#8594;</div>
+        </template>
+
         <div id="proposal">
           <div v-for="(proposal, p_index) in proposals" :key="proposal.name" class="station" :class="checked[p_index]">
+            <div class="station-name">
+              <h2>{{proposal.type}}</h2>
+              <h1>{{proposal.name}}</h1>
+            </div>
             <div class="databox">
-
-              <imageblob :image="proposal.graph.image"/>
-              <!-- <chart :dots="proposal.graph"></chart> -->
-
+              <div class="graph">
+                <imageblob v-if="proposal.graph.image_gh" :image="proposal.graph.image_gh"/>
+                <imageblob v-if="proposal.graph.image_npsh" :image="proposal.graph.image_npsh"/>
+              </div>
               <div class="data row">
                 <div v-for="datablock in proposal.data" :key="datablock.header" class="datablock col-lg-12 col-md-6 col-12">
                   <h2>{{datablock.header}}</h2>
@@ -33,9 +41,19 @@
 
               <div v-if="proposal.info" class="info" v-html="proposal.info"></div>
             </div>
+            <div class="subinfo">
+              <p>Для консультации, уточнения стоимости и&nbsp;заказа обращайтесь в&nbsp;ближайшее <a href="http://www.elitacompany.ru/home/contacts" target="_blank">отделение компании «Элита»</a></p>
+            </div>
           </div>
         </div>
+      </template>
 
+      <template v-else>
+        <div class="center">
+          <img src="img\think.svg" class="not_found">
+          <h1>Система не&nbsp;нашла для&nbsp;вас подходящих установок</h1>
+          <h2>Не отчаивайтесь! Обратитесь к&nbsp;техническим специалистам Элиты!</h2>
+        </div>
       </template>
     </div>
   </div>
@@ -66,7 +84,7 @@ export default {
       this.current_proposal = null;
       this.token = this.$props.view.token;
     }
-    if (this.current_proposal === null) if (this.$props.view.proposal) this.gotoProposal(0);
+    if (this.current_proposal === null) if (this.$props.view.proposal && this.$props.view.proposal.length > 0) this.gotoProposal(0);
   },
   computed: {
     propNameList(){
@@ -79,8 +97,25 @@ export default {
       }
       return false
     },
+    total_proposals(){
+      if (this.$props.view.proposal) return this.$props.view.proposal.length
+      return false
+    },
+    isResults(){
+      return (this.total_proposals > 0)
+    },
+    leftAllow(){
+      return (this.current_proposal > 0)
+    },
+    rightAllow(){
+      return (this.current_proposal < this.total_proposals-1)
+    },
     proposals(){
       if (this.$props.view.proposal) return this.$props.view.proposal
+      return false
+    },
+    showArrows(){
+      if (this.$props.view.proposal) return (this.$props.view.proposal.length > 1)
       return false
     }
   },
@@ -98,7 +133,15 @@ export default {
       this.$set(this.checked, this.current_proposal, "checked");
       this.$set(this.checked, num, "active");
       this.current_proposal = num;
-      this.$emit("selectproposal", this.$props.view.proposal[this.current_proposal].download)
+      let $proposal = this.$props.view.proposal[this.current_proposal].pdf || "";
+      this.$emit("selectproposal", $proposal)
+    },
+    swipeProposal(direction){
+      if (direction > 0) {
+        if (this.rightAllow) this.gotoProposal(this.current_proposal+1)
+      } else {
+        if (this.leftAllow) this.gotoProposal(this.current_proposal-1)
+      }
     }
   }
 }

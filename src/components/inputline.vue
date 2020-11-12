@@ -14,7 +14,7 @@
       </div>
     </div>
 
-    <div v-if=" model.role === 'switch' " class="switch" :class="switchClass" @click="switchToggle">Управление двумя задвижками<span></span></div>
+    <div v-if=" model.role === 'switch' " class="switch" :class="switchClass" @click="switchToggle">{{model.label}}<span></span></div>
 
   </div>
 
@@ -34,7 +34,7 @@
       }
     },
     created(){
-      if (this.$props.model.role === 'switch') this.result = true;
+      if (this.$props.model.role === 'switch') this.result = false;
     },
     computed: {
       isDisabled(){
