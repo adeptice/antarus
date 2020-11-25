@@ -15,7 +15,7 @@
         </div>
         <div class="col-md-5 col-lg-4 col-12">
           <div v-if="next.name" class="bluebutton submit" :class="{'active': next.isActive}" @click="goNext">{{next.name}}</div>
-          <a v-if="isDownload" :href="proposal" target="_blank" class="bluebutton download active">Скачать лист данных</a>
+          <a v-if="isDownload" :href="proposal" target="_blank" class="bluebutton download active" onclick="window.ym(69332305, 'reachGoal', 'DOWNLOAD_KP'); return true;">Скачать лист данных</a>
         </div>
       </div>
     </div>
