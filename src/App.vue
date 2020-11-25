@@ -333,6 +333,7 @@
           // console.log(dataToSend);
           if (this.sentData != dataToSend) {
             this.server_response = {};
+            window.ym(69332305, 'reachGoal', 'SEND_DATA');
             this.sendData('http://93.189.150.84/api/hs/Antarus', dataToSend)
             // var loadRes = '/data/no_results.json';
             // var rand = Math.random() - 0.5;

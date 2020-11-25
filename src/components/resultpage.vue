@@ -84,7 +84,15 @@ export default {
       this.current_proposal = null;
       this.token = this.$props.view.token;
     }
-    if (this.current_proposal === null) if (this.$props.view.proposal && this.$props.view.proposal.length > 0) this.gotoProposal(0);
+    if (this.current_proposal === null){
+      if (this.$props.view.proposal)
+        if (this.$props.view.proposal.length > 0) {
+          window.ym(69332305, 'reachGoal', 'GOT_RESULTS');
+          this.gotoProposal(0);
+        } else {
+          window.ym(69332305, 'reachGoal', 'NO_RESULTS');
+        }
+    }
   },
   computed: {
     propNameList(){
