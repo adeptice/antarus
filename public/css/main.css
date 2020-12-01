@@ -146,8 +146,18 @@ header {
     margin: 0 0 0 30px;
     padding: 20px 30px;
     color: #fff;
-    border-left: 1px solid rgba(255,255,255,0.3)
+    border-left: 1px solid rgba(255,255,255,0.3);
+    cursor: default;
   }
+
+    header .logoblox h2 a{
+      text-decoration: none;
+      color: inherit;
+    }
+
+      header .logoblox h2 a:hover{
+        border-bottom: 1px dotted #FFF
+      }
 
 /* --- Navbar --- */
 

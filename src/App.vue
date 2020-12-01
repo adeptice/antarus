@@ -6,7 +6,7 @@
         <div class="container flexbox">
           <div class="row">
             <div class="logoblox col-md-8 col-12">
-              <a href="http://search.antarus.su/"><img src="/img/Antarus.svg" alt="Antarus" id="Logotype"></a>
+              <a href="http://antarus.su/"><img src="/img/Antarus.svg" alt="Antarus" id="Logotype"></a>
               <h2>Подбор насосных установок</h2>
             </div>
             <div class="startbutton col-4" v-show="isResult">
